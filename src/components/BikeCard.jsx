@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 /* eslint-disable react/prop-types */
@@ -41,19 +42,24 @@ const BikeCard = ({ bike, setBikes, bikes }) => {
         <div className="w-full h-[240px]">
           <img src={photo} alt="bike" className="w-full h-full p-3" />
         </div>
-        <div className="px-6 py-3">
-          <h2 className="card-title">{name}</h2>
+        <div className="px-6 py-3 flex flex-col">
+         <div>
+         <h2 className="card-title">{name}</h2>
           <li>{hight}</li>
           <li>{waight}</li>
           <li>{quantity}</li>
-          <div className="card-actions justify-end ">
+         </div>
+          <div className="card-actions justify-end flex-grow">
             <button
               onClick={() => handelRemove(_id)}
               className="btn bg-orange-800 text-white"
             >
               Remove
             </button>
-            <button className="btn bg-orange-800 text-white">Update</button>
+            <Link to={`/update/${_id}`}>
+              {" "}
+              <button className="btn bg-orange-800 text-white">Update</button>
+            </Link>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import AddBikes from "./components/AddBikes";
 import Bikes from "./components/Bikes";
+import UpDateBike from "./components/UpDateBike";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,12 @@ const router = createBrowserRouter([
       {
         path: "/addBikes",
         element: <AddBikes></AddBikes>,
+      },
+      {
+        path: "/update/:id",
+        element: <UpDateBike></UpDateBike>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/addBike/${params.id}`),
       },
     ],
   },
