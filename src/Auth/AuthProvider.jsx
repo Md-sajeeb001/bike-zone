@@ -2,6 +2,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -21,23 +22,26 @@ const AuthProvider = ({ children }) => {
   };
 
   const logInUser = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const logOutUser = () => {
-    setLoading(true)
+    setLoading(true);
     return signOut(auth);
   };
 
   const userUpDate = (upDateUser) => {
-    setLoading(true)
+    setLoading(true);
     return updateProfile(auth.currentUser, upDateUser);
+  };
+
+  const forgetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("current user is ", currentUser);
       setUser(currentUser);
       setLoading(false);
     });
@@ -51,6 +55,7 @@ const AuthProvider = ({ children }) => {
     userUpDate,
     logOutUser,
     logInUser,
+    forgetPassword
   };
 
   return (

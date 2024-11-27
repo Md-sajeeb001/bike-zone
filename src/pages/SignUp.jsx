@@ -10,7 +10,6 @@ const SignUp = () => {
   const { createUser, userUpDate } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  console.log(showPass);
 
   const handelResigter = (e) => {
     e.preventDefault();
@@ -21,6 +20,20 @@ const SignUp = () => {
     const password = formData.get("password");
     const photo = formData.get("photo");
     const checkbox = formData.get("checkbox");
+
+    if (password < 6) {
+      toast.error("Password should be at least 6 characters", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
 
     const passwordVlidation = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
     if (!passwordVlidation.test(password)) {
@@ -37,19 +50,6 @@ const SignUp = () => {
       return;
     }
 
-    if (password > 6) {
-      toast.error("Password should be at least 6 characters", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return;
-    }
     if (!checkbox) {
       toast.error("accept our terms and condition", {
         position: "top-center",
@@ -100,7 +100,6 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.log(error.message);
-
         if (error.message) {
           Swal.fire({
             title: "Error!",

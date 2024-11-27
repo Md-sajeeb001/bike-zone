@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthProvider";
 import Swal from "sweetalert2";
@@ -7,10 +7,10 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const { logInUser } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { logInUser, forgetPassword } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
-
+  const navigate = useNavigate();
+  const emailRef = useRef();
 
   const handelLogin = (e) => {
     e.preventDefault();
@@ -20,7 +20,6 @@ const Login = () => {
 
     logInUser(email, password)
       .then((res) => {
-        console.log("user log in successful", res.user);
         if (res.user) {
           Swal.fire({
             title: "success",
@@ -32,7 +31,6 @@ const Login = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error.message);
         if (error) {
           toast.error(`${error.message}`, {
             position: "top-center",
@@ -47,8 +45,42 @@ const Login = () => {
           return;
         }
       });
+  };
 
-    console.log(email, password);
+  const hadelForgetPass = () => {
+    const email = emailRef.current.value;
+    console.log(email);
+    forgetPassword(email)
+      .then((res) => {
+        console.log("varification code send, please cheack email", res);
+        toast("please check you email, to reset password", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+
+        if (error) {
+          toast.error(`${error.message}`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          return;
+        }
+      });
   };
 
   return (
@@ -63,6 +95,7 @@ const Login = () => {
               <span className="label-text">Email</span>
             </label>
             <input
+              ref={emailRef}
               name="email"
               type="email"
               placeholder="email"
@@ -93,6 +126,15 @@ const Login = () => {
               )}
             </button>
           </div>
+
+          <label className="label">
+            <Link
+              onClick={hadelForgetPass}
+              className="label-text-alt link link-hover"
+            >
+              Forgot password?
+            </Link>
+          </label>
 
           <div className="form-control mt-6">
             <button className="btn btn-primary">Login</button>

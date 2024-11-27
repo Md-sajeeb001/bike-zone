@@ -5,7 +5,7 @@ import { AuthContext } from "../Auth/AuthProvider";
 
 /* eslint-disable react/prop-types */
 const BikeCard = ({ bike, setBikes, bikes }) => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { _id, name, hight, waight, quantity, photo } = bike;
 
   const handelRemove = (_id) => {
@@ -46,19 +46,23 @@ const BikeCard = ({ bike, setBikes, bikes }) => {
           <img src={photo} alt="bike" className="w-full h-full p-3" />
         </div>
         <div className="px-6 py-3 flex flex-col">
-         <div>
-         <h2 className="card-title">{name}</h2>
-          <li>{hight}</li>
-          <li>{waight}</li>
-          <li>{quantity}</li>
-         </div>
+          <div>
+            <h2 className="card-title">{name}</h2>
+            <li>{hight}</li>
+            <li>{waight}</li>
+            <li>{quantity}</li>
+          </div>
           <div className="card-actions justify-end flex-grow">
-            <button
-              onClick={() => handelRemove(_id)}
-              className="btn bg-orange-800 text-white"
-            >
-              Remove
-            </button>
+            {user ? (
+              <button
+                onClick={() => handelRemove(_id)}
+                className="btn bg-orange-800 text-white"
+              >
+                Remove
+              </button>
+            ) : (
+              <Link className="btn bg-orange-800 text-white" to="/signup">Remove</Link>
+            )}
             <Link to={`/update/${_id}`}>
               {" "}
               <button className="btn bg-orange-800 text-white">Update</button>
