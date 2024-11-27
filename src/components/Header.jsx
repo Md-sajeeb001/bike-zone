@@ -1,16 +1,30 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../Auth/AuthProvider";
 
 const Header = () => {
+  const { user, logOutUser } = useContext(AuthContext);
 
-    const links = <>
-    
-    <NavLink to="/">Home</NavLink>
-    <NavLink to="/addBikes">Add Bike</NavLink>
-
+  const links = (
+    <>
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/addBikes">Add Bike</NavLink>
     </>
+  );
+
+  const handelLogOut = () => {
+    logOutUser()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log("user log out");
+  };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border-b-2">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -33,18 +47,36 @@ const Header = () => {
             tabIndex={0}
             className="gap-6 menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-           {links}
+            {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">BikeZone</a>
+        <Link to="/" className="btn btn-ghost text-xl">
+          BikeZone
+        </Link>
+        {user && (
+          <Link to="/" className="btn btn-ghost text-xl">
+            {user?.email}
+          </Link>
+        )}
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="gap-10 menu menu-horizontal px-1">
-          {links}
-        </ul>
+        <ul className="gap-10 menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <div>{user?.displayName}</div>
+        {user ? (
+          <button onClick={handelLogOut} className="btn">
+            Log Out
+          </button>
+        ) : (
+          <div>
+            <Link to="/signup">
+              {" "}
+              <button className="btn">Sign Up</button>
+            </Link>
+            <Link to="/login"><button className="btn ml-5">Log in</button></Link>
+          </div>
+        )}
       </div>
     </div>
   );

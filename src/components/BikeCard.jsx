@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../Auth/AuthProvider";
 
 /* eslint-disable react/prop-types */
 const BikeCard = ({ bike, setBikes, bikes }) => {
+  const {user} = useContext(AuthContext);
   const { _id, name, hight, waight, quantity, photo } = bike;
 
   const handelRemove = (_id) => {
