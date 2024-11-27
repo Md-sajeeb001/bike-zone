@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthProvider";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const { createUser, userUpDate } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  console.log(showPass)
-
+  console.log(showPass);
 
   const handelResigter = (e) => {
     e.preventDefault();
@@ -99,7 +100,7 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.log(error.message);
-        
+
         if (error.message) {
           Swal.fire({
             title: "Error!",
@@ -144,18 +145,27 @@ const SignUp = () => {
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control relative">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
             <input
               name="password"
-              type="password"
+              type={showPass ? "text" : "password"}
               placeholder="password"
               className="input input-bordered"
               required
             />
-            <button onClick={()=>setShowPass(!showPass)}>show</button>
+            <button
+              className="absolute right-10 top-[52px] text-xl"
+              onClick={() => setShowPass(!showPass)}
+            >
+              {showPass ? (
+                <FaRegEye></FaRegEye>
+              ) : (
+                <FaRegEyeSlash></FaRegEyeSlash>
+              )}
+            </button>
           </div>
 
           <div className="form-control">
