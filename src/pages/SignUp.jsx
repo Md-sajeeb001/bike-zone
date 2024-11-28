@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
+
 const SignUp = () => {
   const { createUser, userUpDate } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -66,7 +67,6 @@ const SignUp = () => {
 
     createUser(email, password)
       .then((res) => {
-        console.log(res);
         if (res.user) {
           Swal.fire({
             title: "success",
@@ -76,6 +76,7 @@ const SignUp = () => {
           });
           navigate("/");
         }
+
         userUpDate({ displayName: name, photoURL: photo })
           .then((res) => {
             if (res) {
@@ -99,7 +100,6 @@ const SignUp = () => {
           });
       })
       .catch((error) => {
-        console.log(error.message);
         if (error.message) {
           Swal.fire({
             title: "Error!",
@@ -156,6 +156,7 @@ const SignUp = () => {
               required
             />
             <button
+              type="button"
               className="absolute right-10 top-[52px] text-xl"
               onClick={() => setShowPass(!showPass)}
             >

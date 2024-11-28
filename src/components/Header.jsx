@@ -20,7 +20,6 @@ const Header = () => {
       .catch((error) => {
         console.log(error);
       });
-    console.log("user log out");
   };
 
   return (

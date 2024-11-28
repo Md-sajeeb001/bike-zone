@@ -20,6 +20,22 @@ const Login = () => {
 
     logInUser(email, password)
       .then((res) => {
+        console.log(res.user.emailVerified);
+
+        if (!res.user.emailVerified) {
+          toast.error(`please verify you email address`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          return;
+        }
+
         if (res.user) {
           Swal.fire({
             title: "success",
@@ -49,7 +65,6 @@ const Login = () => {
 
   const hadelForgetPass = () => {
     const email = emailRef.current.value;
-    console.log(email);
     forgetPassword(email)
       .then((res) => {
         console.log("varification code send, please cheack email", res);
@@ -65,8 +80,6 @@ const Login = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
-
         if (error) {
           toast.error(`${error.message}`, {
             position: "top-center",
@@ -116,6 +129,7 @@ const Login = () => {
               required
             />
             <button
+              type="button"
               className="absolute right-10 top-[52px] text-xl"
               onClick={() => setShowPass(!showPass)}
             >

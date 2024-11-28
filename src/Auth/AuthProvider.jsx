@@ -37,6 +37,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const forgetPassword = (email) => {
+    setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
 
@@ -55,7 +56,7 @@ const AuthProvider = ({ children }) => {
     userUpDate,
     logOutUser,
     logInUser,
-    forgetPassword
+    forgetPassword,
   };
 
   return (
